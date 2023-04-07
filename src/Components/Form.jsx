@@ -1,23 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
 function Form() {
   const [firstName,setFirstName] = useState("")
   const [lastName,setLastName] = useState("")
   const [email,setEmail] = useState("")
-  const [fNameValid,setfNameValid] = useState(true)
-  const [lNameValid,setlNameValid] = useState(true)
-  const [emailValid,setEmailValid] = useState(true)
+  const [fNameValid,setfNameValid] = useState(false)
+  const [lNameValid,setlNameValid] = useState(false)
+  const [emailValid,setEmailValid] = useState(false)
+  const [submitted, setSubmitted] = useState(false); // added state variable
 
 
-
-  function formValidation(e) {
-
-    if (fNameValid || lNameValid || emailValid) {
-      e.preventDefault();
-    }
-
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ig 
+  useEffect(() => {
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ig;
 
     if (firstName.length === 0) {
       setfNameValid(false);
@@ -34,8 +29,13 @@ function Form() {
     } else {
       setEmailValid(true);
     }
+  }, [firstName, lastName, email]);
 
+  function formValidation(e) {
+    e.preventDefault();
+    setSubmitted(true); // set form submitted to true
   }
+
 
     return (
       <div class="container w-50">
@@ -47,21 +47,21 @@ function Form() {
                 <input type="text" class="form-control" id="fName" placeholder="John"
                 onChange={e => setFirstName(e.target.value)} />
                 <label for="fName">First Name</label>
-                { fNameValid === false ?  <Alert message="First name input is not valid"/> : <div hidden></div>}
+                { submitted && fNameValid === false ?  <Alert message="First name input is not valid"/> : <div hidden></div>}
               </div>
 
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="lName" placeholder="Smith"
                 onChange={e => setLastName(e.target.value)}/>
                 <label for="lName">Last Name</label>
-                { lNameValid === false ?  <Alert message="Last name input is not valid"/> : <div hidden></div>}
+                { submitted && lNameValid === false ?  <Alert message="Last name input is not valid"/> : <div hidden></div>}
               </div>
 
               <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" placeholder="name@example.com"
                 onChange={e => setEmail(e.target.value)}/>
                 <label for="email">Email address</label>
-                { emailValid === false ?  <Alert message="Email input is not valid"/> : <div hidden></div>}
+                { submitted && emailValid === false ?  <Alert message="Email input is not valid"/> : <div hidden></div>}
               </div>
 
               <button class="w-100 btn btn-lg btn-primary" type="submit" onClick={formValidation}>Register</button>
