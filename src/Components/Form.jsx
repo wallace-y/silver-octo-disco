@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import Alert from "./Alert";
 
 function Form() {
+  const [firstName,setFirstName] = useState("")
+  const [lastName,setLastName] = useState("")
+  const [email,setEmail] = useState("")
+  const [fNameValid,setfNameValid] = useState(true)
+
+
+  function formValidation(e) {
+    e.preventDefault();
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ig 
+
+    if (firstName.length === 0) {
+      setfNameValid(false);
+    } else {
+      setfNameValid(true);
+    }
+    // if (lastName === undefined){
+    //   console.log("Last name cannot be empty")
+    // }
+
+    // if (!emailRegex.test(email)){
+    //   console.log("Not a valid email address")
+    // }
+  }
 
     return (
       <div class="container w-50">
@@ -9,21 +33,25 @@ function Form() {
               <h1 class="h3 mb-3 fw-normal">Please register below</h1>
 
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="John"/>
-                <label for="floatingInput">First Name</label>
+                <input type="text" class="form-control" id="fName" placeholder="John"
+                onChange={e => setFirstName(e.target.value)} />
+                <label for="fName">First Name</label>
+                { fNameValid === false ?  <Alert message="First name input is not valid"/> : <div hidden></div>}
               </div>
 
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Smith"/>
-                <label for="floatingInput">Last Name</label>
+                <input type="text" class="form-control" id="lName" placeholder="Smith"
+                onChange={e => setLastName(e.target.value)}/>
+                <label for="lName">Last Name</label>
               </div>
 
               <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"/>
-                <label for="floatingInput">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="name@example.com"
+                onChange={e => setEmail(e.target.value)}/>
+                <label for="email">Email address</label>
               </div>
 
-              <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+              <button class="w-100 btn btn-lg btn-primary" type="submit" onClick={formValidation}>Register</button>
               <p class="mt-5 mb-3 text-body-secondary">© 2023</p>
             </form>
         </main>
