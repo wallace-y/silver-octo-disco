@@ -32,8 +32,11 @@ function Form() {
   }, [firstName, lastName, email]);
 
   function formValidation(e) {
-    e.preventDefault();
+    if (fNameValid === false|| lNameValid === false|| emailValid === false) {
+      e.preventDefault();
+    }
     setSubmitted(true); // set form submitted to true
+
   }
 
 
@@ -67,6 +70,7 @@ function Form() {
               <button class="w-100 btn btn-lg btn-primary" type="submit" onClick={formValidation}>Register</button>
               <p class="mt-5 mb-3 text-body-secondary">© 2023</p>
             </form>
+             {submitted && fNameValid && lNameValid && emailValid === true ? <h1>Form successfully submitted</h1> : false}
         </main>
         </div>
     )
