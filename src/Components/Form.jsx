@@ -6,6 +6,9 @@ function Form() {
   const [lastName,setLastName] = useState("")
   const [email,setEmail] = useState("")
   const [fNameValid,setfNameValid] = useState(true)
+  const [lNameValid,setlNameValid] = useState(true)
+  const [emailValid,setEmailValid] = useState(true)
+
 
 
   function formValidation(e) {
@@ -17,13 +20,17 @@ function Form() {
     } else {
       setfNameValid(true);
     }
-    // if (lastName === undefined){
-    //   console.log("Last name cannot be empty")
-    // }
+    if (lastName.length === 0) {
+      setlNameValid(false);
+    } else {
+      setlNameValid(true);
+    }
 
-    // if (!emailRegex.test(email)){
-    //   console.log("Not a valid email address")
-    // }
+    if (!emailRegex.test(email)) {
+      setEmailValid(false);
+    } else {
+      setEmailValid(true);
+    }
   }
 
     return (
@@ -43,12 +50,14 @@ function Form() {
                 <input type="text" class="form-control" id="lName" placeholder="Smith"
                 onChange={e => setLastName(e.target.value)}/>
                 <label for="lName">Last Name</label>
+                { lNameValid === false ?  <Alert message="Last name input is not valid"/> : <div hidden></div>}
               </div>
 
               <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" placeholder="name@example.com"
                 onChange={e => setEmail(e.target.value)}/>
                 <label for="email">Email address</label>
+                { emailValid === false ?  <Alert message="Email input is not valid"/> : <div hidden></div>}
               </div>
 
               <button class="w-100 btn btn-lg btn-primary" type="submit" onClick={formValidation}>Register</button>
