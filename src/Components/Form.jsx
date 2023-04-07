@@ -12,7 +12,11 @@ function Form() {
 
 
   function formValidation(e) {
-    e.preventDefault();
+
+    if (fNameValid || lNameValid || emailValid) {
+      e.preventDefault();
+    }
+
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ig 
 
     if (firstName.length === 0) {
@@ -25,12 +29,12 @@ function Form() {
     } else {
       setlNameValid(true);
     }
-
     if (!emailRegex.test(email)) {
       setEmailValid(false);
     } else {
       setEmailValid(true);
     }
+
   }
 
     return (
