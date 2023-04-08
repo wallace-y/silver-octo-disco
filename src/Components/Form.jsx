@@ -8,7 +8,8 @@ function Form() {
   const [fNameValid,setfNameValid] = useState(false)
   const [lNameValid,setlNameValid] = useState(false)
   const [emailValid,setEmailValid] = useState(false)
-  const [submitted, setSubmitted] = useState(false); // added state variable
+  const [submitted, setSubmitted] = useState(false);
+  const [formValid,setFormValid] = useState(false)
 
 
   useEffect(() => {
@@ -32,11 +33,13 @@ function Form() {
   }, [firstName, lastName, email]);
 
   function formValidation(e) {
-    if (fNameValid === false|| lNameValid === false|| emailValid === false) {
       e.preventDefault();
-    }
+
     setSubmitted(true); // set form submitted to true
 
+    if (fNameValid === true &&  lNameValid === true && emailValid === true) {
+      setFormValid(true);
+    }
   }
 
 
@@ -45,6 +48,7 @@ function Form() {
         <main class="form-signin w-100 m-auto mt-3">
             <form>
               <h1 class="h3 mb-3 fw-normal">Please register below</h1>
+              {formValid ? <h1>Form successfully submitted</h1> : null}
 
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="fName" placeholder="John"
@@ -70,7 +74,6 @@ function Form() {
               <button class="w-100 btn btn-lg btn-primary" type="submit" onClick={formValidation}>Register</button>
               <p class="mt-5 mb-3 text-body-secondary">© 2023</p>
             </form>
-             {submitted && fNameValid && lNameValid && emailValid === true ? <h1>Form successfully submitted</h1> : false}
         </main>
         </div>
     )
